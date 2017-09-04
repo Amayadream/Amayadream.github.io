@@ -179,7 +179,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一-准备"><a href="#一-准备" class="headerlink" title="一.准备"></a>一.准备</h1><p>1.本文以及后续文章环境均为 CentOS7<br>2.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在<a href="http://http://i.amayadream.com/2017/07/10/CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git/" target="_blank" rel="external">CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)</a>一文中已经介绍过</p>
+        <h1 id="一-准备"><a href="#一-准备" class="headerlink" title="一.准备"></a>一.准备</h1><p>1.本文以及后续文章环境均为 CentOS7<br>2.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在<a href="http://i.amayadream.com/2017/07/10/CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git/">CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)</a>一文中已经介绍过</p>
 <h1 id="二-安装"><a href="#二-安装" class="headerlink" title="二.安装"></a>二.安装</h1><p>首先添加 Jenkins 源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget -O /etc/yum.repos.d/jenkins.repo http://jenkins-ci.org/redhat/jenkins.repo</div><div class="line">rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key</div></pre></td></tr></table></figure></p>
 <p>完成之后执行安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install jenkins</div></pre></td></tr></table></figure></p>
 <p>稍作等待后 Jenkins 就安装好了, 因为默认安装忽略了很多细节, 稍微介绍一下 Jenkins 各个目录情况:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/etc/sysconfig/jenkins  #Jenkins配置文件</div><div class="line">/var/lib/jenkins        #Jenkins工作目录</div><div class="line">/var/log/jenkins        #Jenkins日志文件夹</div></pre></td></tr></table></figure></p>
@@ -202,11 +202,11 @@ ga('send', 'pageview');
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jenkins</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jenkins</a>
         		</li>
       		
 		</ul>
@@ -428,11 +428,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Jenkins</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color3">Jenkins</a>
               </li>
             
             <div class="clearfix"></div>
