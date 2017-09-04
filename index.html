@@ -159,6 +159,78 @@ ga('send', 'pageview');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Jenkins-1-安装与熟悉" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/04/Jenkins-1-安装与熟悉/">[Jenkins]1.安装与熟悉</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/04/Jenkins-1-安装与熟悉/" class="archive-article-date">
+  	<time datetime="2017-09-04T14:31:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一-准备"><a href="#一-准备" class="headerlink" title="一.准备"></a>一.准备</h1><p>1.本文以及后续文章环境均为 CentOS7<br>2.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在<a href="http://http://i.amayadream.com/2017/07/10/CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git/" target="_blank" rel="external">CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)</a>一文中已经介绍过</p>
+<h1 id="二-安装"><a href="#二-安装" class="headerlink" title="二.安装"></a>二.安装</h1><p>首先添加 Jenkins 源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget -O /etc/yum.repos.d/jenkins.repo http://jenkins-ci.org/redhat/jenkins.repo</div><div class="line">rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key</div></pre></td></tr></table></figure></p>
+<p>完成之后执行安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install jenkins</div></pre></td></tr></table></figure></p>
+<p>稍作等待后 Jenkins 就安装好了, 因为默认安装忽略了很多细节, 稍微介绍一下 Jenkins 各个目录情况:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/etc/sysconfig/jenkins  #Jenkins配置文件</div><div class="line">/var/lib/jenkins        #Jenkins工作目录</div><div class="line">/var/log/jenkins        #Jenkins日志文件夹</div></pre></td></tr></table></figure></p>
+<h2 id="三-启动"><a href="#三-启动" class="headerlink" title="三.启动"></a>三.启动</h2><p>首先建议打开 Jenkins 的配置文件以熟悉一些默认配置情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/sysconfig/jenkins</div></pre></td></tr></table></figure></p>
+<p>配置文件注释非常详细, 而且参数不多, 大部分都是不用调整, 比较常用的可能是<code>JENKINS_PORT</code>, 用来调整 Jenkins 的端口号</p>
+<p>看完了配置文件就可以启动 Jenkins 了, 这里使用的是 centos7 的<code>systemctl</code>命令, 除了<code>start</code>同样还有<code>status</code>/<code>stop</code>等命令, 这里就不一一演示了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start jenkins</div></pre></td></tr></table></figure></p>
+<p>启动之后用浏览器访问 127.0.0.1:8080 (如果改过<code>JENKINS_PORT</code>配置则相应调整端口)即可进入Jenkins页面, 首先要输入安装密码进入安装流程, 安装密码通过下面命令即可看出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 直接查看安装密码文件</div><div class="line">cat /var/lib/jenkins/secrets/initialAdminPassword</div><div class="line"># 或者从Jenkins日志中查看</div><div class="line">cat /var/log/jenkins/jenkins.log</div></pre></td></tr></table></figure></p>
+<p>输入安装密码之后回车然后一直无脑下一步, 插件选择默认即可, 因为后面可以自定义设置, 无须在此浪费时间.</p>
+<h2 id="四-安装插件"><a href="#四-安装插件" class="headerlink" title="四.安装插件"></a>四.安装插件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">build...</div></pre></td></tr></table></figure>
+<h2 id="五-配置"><a href="#五-配置" class="headerlink" title="五.配置"></a>五.配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">build...</div></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jenkins</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/04/Jenkins-1-安装与熟悉/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -353,6 +425,14 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Jenkins</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
