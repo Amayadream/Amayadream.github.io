@@ -9,16 +9,18 @@
   <title>[Jenkins]1.安装与熟悉 | Amayadream</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="一.准备1.本文以及后续文章环境均为 CentOS72.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)一文中已经介绍过 二.安装首先添加 Jenkins 源12wget -O /etc/yum.repos.d/jenkins.repo http://jenki">
-<meta name="keywords" content="Linux,Jenkins">
+<meta name="keywords" content="linux,jenkins">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Jenkins]1.安装与熟悉">
 <meta property="og:url" content="http://i.amayadream.com/2017/09/04/Jenkins-1-安装与熟悉/index.html">
 <meta property="og:site_name" content="Amayadream">
 <meta property="og:description" content="一.准备1.本文以及后续文章环境均为 CentOS72.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)一文中已经介绍过 二.安装首先添加 Jenkins 源12wget -O /etc/yum.repos.d/jenkins.repo http://jenki">
-<meta property="og:updated_time" content="2017-09-04T15:14:12.367Z">
+<meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_github_servers_config.png">
+<meta property="og:updated_time" content="2017-09-05T14:46:54.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Jenkins]1.安装与熟悉">
 <meta name="twitter:description" content="一.准备1.本文以及后续文章环境均为 CentOS72.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)一文中已经介绍过 二.安装首先添加 Jenkins 源12wget -O /etc/yum.repos.d/jenkins.repo http://jenki">
+<meta name="twitter:image" content="http://i.amayadream.com/static/img/jenkins_github_servers_config.png">
   
     <link rel="alternative" href="/atom.xml" title="Amayadream" type="application/atom+xml">
   
@@ -188,8 +190,27 @@ ga('send', 'pageview');
 <p>看完了配置文件就可以启动 Jenkins 了, 这里使用的是 centos7 的<code>systemctl</code>命令, 除了<code>start</code>同样还有<code>status</code>/<code>stop</code>等命令, 这里就不一一演示了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start jenkins</div></pre></td></tr></table></figure></p>
 <p>启动之后用浏览器访问 127.0.0.1:8080 (如果改过<code>JENKINS_PORT</code>配置则相应调整端口)即可进入Jenkins页面, 首先要输入安装密码进入安装流程, 安装密码通过下面命令即可看出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 直接查看安装密码文件</div><div class="line">cat /var/lib/jenkins/secrets/initialAdminPassword</div><div class="line"># 或者从Jenkins日志中查看</div><div class="line">cat /var/log/jenkins/jenkins.log</div></pre></td></tr></table></figure></p>
 <p>输入安装密码之后回车然后一直无脑下一步, 插件选择默认即可, 因为后面可以自定义设置, 无须在此浪费时间.</p>
-<h2 id="四-安装插件"><a href="#四-安装插件" class="headerlink" title="四.安装插件"></a>四.安装插件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">build...</div></pre></td></tr></table></figure>
-<h2 id="五-配置"><a href="#五-配置" class="headerlink" title="五.配置"></a>五.配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">build...</div></pre></td></tr></table></figure>
+<h2 id="四-安装插件"><a href="#四-安装插件" class="headerlink" title="四.安装插件"></a>四.安装插件</h2><p>安装好 Jenkins 之后建议首先安装下面两个插件</p>
+<ul>
+<li>Maven Integration plugin      # 提供创建 Maven 项目支持</li>
+<li>Deploy to container Plugin    # 提供将打包后的项目部署到容器(Tomcat/Jetty等)的支持</li>
+</ul>
+<p>安装插件也很简单, 路径[系统管理] -&gt; [管理插件], 切换到[可选插件]标签, 输入上述的插件名安装即可.</p>
+<h2 id="五-配置"><a href="#五-配置" class="headerlink" title="五.配置"></a>五.配置</h2><p>Jenkins 配置主要分为两部分: 系统设置和全局工具设置</p>
+<h3 id="1-系统设置"><a href="#1-系统设置" class="headerlink" title="1.系统设置"></a>1.系统设置</h3><p>打开[系统管理] -&gt; [系统设置], 这里主要是一些系统信息的配置, 稍微看一下也就明白了, 所以这里主要说一下 Github Servers 部分的配置</p>
+<blockquote>
+<p>如果在系统设置中没有看到 Github Servers 的配置选项, 可能是因为没有安装 Github Plugin 插件<br>因为一般是 Jenkins 默认安装的插件所以上面没说, 如果有需要可以自行安装</p>
+</blockquote>
+<p>首先先去<a href="https://github.com/settings/tokens/new" target="_blank" rel="external">github access token生成页面</a>生成一个访问令牌, 下面这些权限是必选的</p>
+<ul>
+<li>admin:repo_hook</li>
+<li>repo</li>
+<li>repo:status</li>
+</ul>
+<p>生成完之后, 点击 Credentials 后面的 add 按钮添加一个证书, Kind 选择<code>Secret Text</code>, Secret 栏填写上面生成的 access token, 再填写一个id保存即可<br>配置填写完毕后应该如下图所示, 点击 Test Connection 按钮测试一下配置是否正确, 一般应该没什么问题</p>
+<p><img src="http://i.amayadream.com/static/img/jenkins_github_servers_config.png" alt="Jenkins Github 配置"></p>
+<h3 id="2-全局工具设置-Global-Tool-Configuration"><a href="#2-全局工具设置-Global-Tool-Configuration" class="headerlink" title="2.全局工具设置(Global Tool Configuration)"></a>2.全局工具设置(Global Tool Configuration)</h3><p>这里主要是对 JDK/Maven/Git 等路径进行一些配置, 通过在终端中输入<code>echo $JAVA_HOME</code>之类的命令查看出环境变量, 再填写进去即可</p>
+
       
 
       
@@ -202,11 +223,11 @@ ga('send', 'pageview');
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jenkins</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">jenkins</a>
         		</li>
       		
 		</ul>
@@ -411,6 +432,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jenkins</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">jenkins</a>
               </li>
             
             <div class="clearfix"></div>
