@@ -159,6 +159,81 @@ ga('send', 'pageview');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Jenkins-2-构建maven项目并配置github-webhook" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/">[Jenkins]2.构建maven项目并配置github webhook</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/" class="archive-article-date">
+  	<time datetime="2017-09-05T14:51:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>注意: 本文中的操作基于 <a href="http://i.amayadream.com/2017/09/04/Jenkins-1-安装与熟悉/">[Jenkins]1.安装与熟悉</a> 一文中的配置, 同时需要在 github 中拥有一个 maven 构建的项目</p>
+</blockquote>
+<h1 id="一-新建与配置"><a href="#一-新建与配置" class="headerlink" title="一.新建与配置"></a>一.新建与配置</h1><p>点击 Jenkins 主页中的新建按钮, 选择[构建一个maven项目], 输入项目名即可完成创建并进去项目配置界面, 下面主要从标签页来介绍配置情况</p>
+<h2 id="1-General"><a href="#1-General" class="headerlink" title="1.General"></a>1.General</h2><p>一般配置很简单, 这里需要选择[GitHub project], 并填写项目 github 地址, 例如: <a href="https://github.com/rails/rails" target="_blank" rel="external">https://github.com/rails/rails</a></p>
+<h2 id="2-源码管理"><a href="#2-源码管理" class="headerlink" title="2.源码管理"></a>2.源码管理</h2><p>选择[Git], 整体配置如下图, Credentials 自己添加, Kind 选择 “Username and password”, 输入 github 账号密码即可</p>
+<blockquote>
+<p>注意: Repository URL 请务必填写 ssh 格式, 例如 git@github.com:rails/rails.git, 具体原因后面再说</p>
+</blockquote>
+<p><img src="http://i.amayadream.com/static/img/jenkins_project_config_git.png" alt="Git配置"></p>
+<h2 id="3-构建触发器"><a href="#3-构建触发器" class="headerlink" title="3.构建触发器"></a>3.构建触发器</h2><p>选择[GitHub hook trigger for GITScm polling], 即 github webhook 触发构建事件, 具体配置后面会说到</p>
+<h2 id="4-构建环境-amp-Pre-Steps-amp-Build-amp-Post-Steps-amp-构建设置-amp-构建后操作"><a href="#4-构建环境-amp-Pre-Steps-amp-Build-amp-Post-Steps-amp-构建设置-amp-构建后操作" class="headerlink" title="4.构建环境&amp;Pre Steps&amp;Build&amp;Post Steps&amp;构建设置&amp;构建后操作"></a>4.构建环境&amp;Pre Steps&amp;Build&amp;Post Steps&amp;构建设置&amp;构建后操作</h2><p>不重要, 可以酌情自行配置</p>
+<h1 id="二-github-webhook配置"><a href="#二-github-webhook配置" class="headerlink" title="二.github webhook配置"></a>二.github webhook配置</h1><p>打开自己 github 项目主页, 例如 <a href="https://github.com/rails/rails" target="_blank" rel="external">https://github.com/rails/rails</a>, 点击 Setting 按钮, 选择左边菜单中的 Webhooks 选项, 就来到了 github webhook 管理界面<br>点击 Add webhook 按钮, 进入 Webhook 添加页面<br>配置如下图, Payload URL 填写 <a href="http://ip:port/github-webhook/" target="_blank" rel="external">http://ip:port/github-webhook/</a> 即可(ip和port替换成服务器的ip和端口), Jenkins 会自动匹配 webhook push 事件与项目的关系<br><img src="http://i.amayadream.com/static/img/jenkins_project_config_webhook.png" alt=""></p>
+<h1 id="三-触发构建"><a href="#三-触发构建" class="headerlink" title="三.触发构建"></a>三.触发构建</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">build...</div></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">jenkins</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-Jenkins-1-安装与熟悉" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -179,23 +254,25 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一-准备"><a href="#一-准备" class="headerlink" title="一.准备"></a>一.准备</h1><p>1.本文以及后续文章环境均为 CentOS7<br>2.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在<a href="http://i.amayadream.com/2017/07/10/CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git/">CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)</a>一文中已经介绍过</p>
-<h1 id="二-安装"><a href="#二-安装" class="headerlink" title="二.安装"></a>二.安装</h1><p>首先添加 Jenkins 源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget -O /etc/yum.repos.d/jenkins.repo http://jenkins-ci.org/redhat/jenkins.repo</div><div class="line">rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key</div></pre></td></tr></table></figure></p>
+        <blockquote>
+<p>1.本文以及后续文章环境均为 CentOS7<br>2.建议在安装 Jenkins 前将 JDK/Maven/Git 等环境提前安装好, 这些在<a href="http://i.amayadream.com/2017/07/10/CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git/">CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)</a>一文中已经介绍过</p>
+</blockquote>
+<h1 id="一-安装"><a href="#一-安装" class="headerlink" title="一.安装"></a>一.安装</h1><p>首先添加 Jenkins 源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget -O /etc/yum.repos.d/jenkins.repo http://jenkins-ci.org/redhat/jenkins.repo</div><div class="line">rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key</div></pre></td></tr></table></figure></p>
 <p>完成之后执行安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install jenkins</div></pre></td></tr></table></figure></p>
 <p>稍作等待后 Jenkins 就安装好了, 因为默认安装忽略了很多细节, 稍微介绍一下 Jenkins 各个目录情况:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/etc/sysconfig/jenkins  #Jenkins配置文件</div><div class="line">/var/lib/jenkins        #Jenkins工作目录</div><div class="line">/var/log/jenkins        #Jenkins日志文件夹</div></pre></td></tr></table></figure></p>
-<h2 id="三-启动"><a href="#三-启动" class="headerlink" title="三.启动"></a>三.启动</h2><p>首先建议打开 Jenkins 的配置文件以熟悉一些默认配置情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/sysconfig/jenkins</div></pre></td></tr></table></figure></p>
+<h2 id="二-启动"><a href="#二-启动" class="headerlink" title="二.启动"></a>二.启动</h2><p>首先建议打开 Jenkins 的配置文件以熟悉一些默认配置情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/sysconfig/jenkins</div></pre></td></tr></table></figure></p>
 <p>配置文件注释非常详细, 而且参数不多, 大部分都是不用调整, 比较常用的可能是<code>JENKINS_PORT</code>, 用来调整 Jenkins 的端口号</p>
 <p>看完了配置文件就可以启动 Jenkins 了, 这里使用的是 centos7 的<code>systemctl</code>命令, 除了<code>start</code>同样还有<code>status</code>/<code>stop</code>等命令, 这里就不一一演示了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start jenkins</div></pre></td></tr></table></figure></p>
 <p>启动之后用浏览器访问 127.0.0.1:8080 (如果改过<code>JENKINS_PORT</code>配置则相应调整端口)即可进入Jenkins页面, 首先要输入安装密码进入安装流程, 安装密码通过下面命令即可看出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 直接查看安装密码文件</div><div class="line">cat /var/lib/jenkins/secrets/initialAdminPassword</div><div class="line"># 或者从Jenkins日志中查看</div><div class="line">cat /var/log/jenkins/jenkins.log</div></pre></td></tr></table></figure></p>
 <p>输入安装密码之后回车然后一直无脑下一步, 插件选择默认即可, 因为后面可以自定义设置, 无须在此浪费时间.</p>
-<h2 id="四-安装插件"><a href="#四-安装插件" class="headerlink" title="四.安装插件"></a>四.安装插件</h2><p>安装好 Jenkins 之后建议首先安装下面两个插件</p>
+<h2 id="三-安装插件"><a href="#三-安装插件" class="headerlink" title="三.安装插件"></a>三.安装插件</h2><p>安装好 Jenkins 之后建议首先安装下面两个插件</p>
 <ul>
 <li>Maven Integration plugin      # 提供创建 Maven 项目支持</li>
 <li>Deploy to container Plugin    # 提供将打包后的项目部署到容器(Tomcat/Jetty等)的支持</li>
 </ul>
 <p>安装插件也很简单, 路径[系统管理] -&gt; [管理插件], 切换到[可选插件]标签, 输入上述的插件名安装即可.</p>
-<h2 id="五-配置"><a href="#五-配置" class="headerlink" title="五.配置"></a>五.配置</h2><p>Jenkins 配置主要分为两部分: 系统设置和全局工具设置</p>
-<h3 id="1-系统设置"><a href="#1-系统设置" class="headerlink" title="1.系统设置"></a>1.系统设置</h3><p>打开[系统管理] -&gt; [系统设置], 这里主要是一些系统信息的配置, 稍微看一下也就明白了, 所以这里主要说一下 Github Servers 部分的配置</p>
+<h2 id="四-配置"><a href="#四-配置" class="headerlink" title="四.配置"></a>四.配置</h2><p>Jenkins 配置主要分为两部分: 系统设置和全局工具设置</p>
+<h3 id="1-系统设置"><a href="#1-系统设置" class="headerlink" title="1.系统设置"></a>1.系统设置</h3><p>打开[系统管理] -&gt; [系统设置], 这里主要是一些系统信息的配置, 稍微看一下也就明白了(碰到不会的点击后面的问号即可看到提示), 所以这里主要说一下 Github Servers 部分的配置</p>
 <blockquote>
 <p>如果在系统设置中没有看到 Github Servers 的配置选项, 可能是因为没有安装 Github Plugin 插件<br>因为一般是 Jenkins 默认安装的插件所以上面没说, 如果有需要可以自行安装</p>
 </blockquote>
@@ -444,14 +521,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Jenkins</a>
               </li>
              
               <li class="article-tag-list-item">

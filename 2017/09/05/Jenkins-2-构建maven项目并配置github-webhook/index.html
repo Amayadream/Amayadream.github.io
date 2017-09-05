@@ -6,17 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://i.amayadream.com">
-  <title>Archives | Amayadream</title>
+  <title>[Jenkins]2.构建maven项目并配置github webhook | Amayadream</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人博客, 记录学习">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Amayadream">
-<meta property="og:url" content="http://i.amayadream.com/archives/index.html">
+  <meta name="description" content="注意: 本文中的操作基于 [Jenkins]1.安装与熟悉 一文中的配置, 同时需要在 github 中拥有一个 maven 构建的项目  一.新建与配置点击 Jenkins 主页中的新建按钮, 选择[构建一个maven项目], 输入项目名即可完成创建并进去项目配置界面, 下面主要从标签页来介绍配置情况 1.General一般配置很简单, 这里需要选择[GitHub project], 并填写项">
+<meta name="keywords" content="linux,jenkins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Jenkins]2.构建maven项目并配置github webhook">
+<meta property="og:url" content="http://i.amayadream.com/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/index.html">
 <meta property="og:site_name" content="Amayadream">
-<meta property="og:description" content="个人博客, 记录学习">
+<meta property="og:description" content="注意: 本文中的操作基于 [Jenkins]1.安装与熟悉 一文中的配置, 同时需要在 github 中拥有一个 maven 构建的项目  一.新建与配置点击 Jenkins 主页中的新建按钮, 选择[构建一个maven项目], 输入项目名即可完成创建并进去项目配置界面, 下面主要从标签页来介绍配置情况 1.General一般配置很简单, 这里需要选择[GitHub project], 并填写项">
+<meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_project_config_git.png">
+<meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_project_config_webhook.png">
+<meta property="og:updated_time" content="2017-09-05T15:33:54.418Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Amayadream">
-<meta name="twitter:description" content="个人博客, 记录学习">
+<meta name="twitter:title" content="[Jenkins]2.构建maven项目并配置github webhook">
+<meta name="twitter:description" content="注意: 本文中的操作基于 [Jenkins]1.安装与熟悉 一文中的配置, 同时需要在 github 中拥有一个 maven 构建的项目  一.新建与配置点击 Jenkins 主页中的新建按钮, 选择[构建一个maven项目], 输入项目名即可完成创建并进去项目配置界面, 下面主要从标签页来介绍配置情况 1.General一般配置很简单, 这里需要选择[GitHub project], 并填写项">
+<meta name="twitter:image" content="http://i.amayadream.com/static/img/jenkins_project_config_git.png">
   
     <link rel="alternative" href="/atom.xml" title="Amayadream" type="application/atom+xml">
   
@@ -157,36 +162,47 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Jenkins-2-构建maven项目并配置github-webhook" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      [Jenkins]2.构建maven项目并配置github webhook
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/" class="archive-article-date">
+
+        
+        <a href="/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/" class="archive-article-date">
   	<time datetime="2017-09-05T14:51:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/">[Jenkins]2.构建maven项目并配置github webhook</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>注意: 本文中的操作基于 <a href="http://i.amayadream.com/2017/09/04/Jenkins-1-安装与熟悉/">[Jenkins]1.安装与熟悉</a> 一文中的配置, 同时需要在 github 中拥有一个 maven 构建的项目</p>
+</blockquote>
+<h1 id="一-新建与配置"><a href="#一-新建与配置" class="headerlink" title="一.新建与配置"></a>一.新建与配置</h1><p>点击 Jenkins 主页中的新建按钮, 选择[构建一个maven项目], 输入项目名即可完成创建并进去项目配置界面, 下面主要从标签页来介绍配置情况</p>
+<h2 id="1-General"><a href="#1-General" class="headerlink" title="1.General"></a>1.General</h2><p>一般配置很简单, 这里需要选择[GitHub project], 并填写项目 github 地址, 例如: <a href="https://github.com/rails/rails" target="_blank" rel="external">https://github.com/rails/rails</a></p>
+<h2 id="2-源码管理"><a href="#2-源码管理" class="headerlink" title="2.源码管理"></a>2.源码管理</h2><p>选择[Git], 整体配置如下图, Credentials 自己添加, Kind 选择 “Username and password”, 输入 github 账号密码即可</p>
+<blockquote>
+<p>注意: Repository URL 请务必填写 ssh 格式, 例如 git@github.com:rails/rails.git, 具体原因后面再说</p>
+</blockquote>
+<p><img src="http://i.amayadream.com/static/img/jenkins_project_config_git.png" alt="Git配置"></p>
+<h2 id="3-构建触发器"><a href="#3-构建触发器" class="headerlink" title="3.构建触发器"></a>3.构建触发器</h2><p>选择[GitHub hook trigger for GITScm polling], 即 github webhook 触发构建事件, 具体配置后面会说到</p>
+<h2 id="4-构建环境-amp-Pre-Steps-amp-Build-amp-Post-Steps-amp-构建设置-amp-构建后操作"><a href="#4-构建环境-amp-Pre-Steps-amp-Build-amp-Post-Steps-amp-构建设置-amp-构建后操作" class="headerlink" title="4.构建环境&amp;Pre Steps&amp;Build&amp;Post Steps&amp;构建设置&amp;构建后操作"></a>4.构建环境&amp;Pre Steps&amp;Build&amp;Post Steps&amp;构建设置&amp;构建后操作</h2><p>不重要, 可以酌情自行配置</p>
+<h1 id="二-github-webhook配置"><a href="#二-github-webhook配置" class="headerlink" title="二.github webhook配置"></a>二.github webhook配置</h1><p>打开自己 github 项目主页, 例如 <a href="https://github.com/rails/rails" target="_blank" rel="external">https://github.com/rails/rails</a>, 点击 Setting 按钮, 选择左边菜单中的 Webhooks 选项, 就来到了 github webhook 管理界面<br>点击 Add webhook 按钮, 进入 Webhook 添加页面<br>配置如下图, Payload URL 填写 <a href="http://ip:port/github-webhook/" target="_blank" rel="external">http://ip:port/github-webhook/</a> 即可(ip和port替换成服务器的ip和端口), Jenkins 会自动匹配 webhook push 事件与项目的关系<br><img src="http://i.amayadream.com/static/img/jenkins_project_config_webhook.png" alt=""></p>
+<h1 id="三-触发构建"><a href="#三-触发构建" class="headerlink" title="三.触发构建"></a>三.触发构建</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">build...</div></pre></td></tr></table></figure>
+      
 
-        <div class="article-info info-on-right">
-          
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -202,99 +218,105 @@ ga('send', 'pageview');
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://i.amayadream.com/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/04/Jenkins-1-安装与熟悉/" class="archive-article-date">
-  	<time datetime="2017-09-04T14:31:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-04</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/04/Jenkins-1-安装与熟悉/">[Jenkins]1.安装与熟悉</a>
-    </h1>
+  
+    <a href="/2017/09/04/Jenkins-1-安装与熟悉/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">[Jenkins]1.安装与熟悉</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">jenkins</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/10/CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git/" class="archive-article-date">
-  	<time datetime="2017-07-10T14:07:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/10/CentOS7安装Java环境-JDK-MySQL-Tomcat-Nginx-Maven-Git/">CentOS7安装Java环境(JDK+MySQL+Tomcat+Nginx+Maven+Git)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'amayadream'; // required: replace example with your forum shortname
 
-    
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  
 
 
           </div>
@@ -317,8 +339,8 @@ ga('send', 'pageview');
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
