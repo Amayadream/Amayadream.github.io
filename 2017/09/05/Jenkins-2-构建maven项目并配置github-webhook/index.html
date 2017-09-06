@@ -18,7 +18,9 @@
 <meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_project_config_git.png">
 <meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_project_config_webhook.png">
 <meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_project_config_webhook_records.png">
-<meta property="og:updated_time" content="2017-09-05T16:06:14.323Z">
+<meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_project_config_log.png">
+<meta property="og:image" content="http://i.amayadream.com/static/img/jenkins_project_config_webhook_log.png">
+<meta property="og:updated_time" content="2017-09-06T13:56:31.153Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Jenkins]2.构建maven项目并配置github webhook">
 <meta name="twitter:description" content="注意: 本文中的操作基于 [Jenkins]1.安装与熟悉 一文中的配置, 同时需要在 github 中拥有一个 maven 构建的项目  一.新建与配置点击 Jenkins 主页中的新建按钮, 选择[构建一个maven项目], 输入项目名即可完成创建并进去项目配置界面, 下面主要从标签页来介绍配置情况 1.General一般配置很简单, 这里需要选择[GitHub project], 并填写项">
@@ -203,8 +205,10 @@ ga('send', 'pageview');
 </ul>
 <p>如果已经 Jenkins 构建被触发且构建成功则下面就不需要看了(项目本身导致的构建失败不在讨论范围)</p>
 <h1 id="四-触发失败问题排查"><a href="#四-触发失败问题排查" class="headerlink" title="四.触发失败问题排查"></a>四.触发失败问题排查</h1><p>如果没有观测到 Jenkins 的构建被触发, 则说明触发器配置有误, 可以从 github webhook 是否触发以及 Jenkins 是否接收到事件到两方面来排查问题原因.</p>
-<h2 id="1-查看github-webhook触发记录"><a href="#1-查看github-webhook触发记录" class="headerlink" title="1.查看github webhook触发记录"></a>1.查看github webhook触发记录</h2><p>打开步骤二中 github webhook 的设置页面, 点击配置的 webhook 进入详情, 拉到下面会有近期触发记录如下图<br>如果 Response 不为200那么就是 Payload URL 填写的有问题(一般都是地址有误或者是安全组防火墙对端口屏蔽问题), 这里稍微检查一下应该不会有太大问题<br>修复完可以点击[Redeliver]重新手动触发以测试效果<br><img src="http://i.amayadream.com/static/img/jenkins_project_config_webhook_records.png" alt="webhook 触发记录"></p>
-<h2 id="2-配置Jenkins自定义日志"><a href="#2-配置Jenkins自定义日志" class="headerlink" title="2.配置Jenkins自定义日志"></a>2.配置Jenkins自定义日志</h2><p>如果 github webhook 触发记录正常仍然无法触发 Jenkins 构建, 那么问题就很明显在 Jenkins 这边了, 最好的办法就是通过日志来观察问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">build...</div></pre></td></tr></table></figure></p>
+<h2 id="1-查看github-webhook触发记录"><a href="#1-查看github-webhook触发记录" class="headerlink" title="1.查看github webhook触发记录"></a>1.查看github webhook触发记录</h2><p>打开步骤二中 github webhook 的设置页面, 点击配置的 webhook 进入详情, 拉到下面会有近期触发记录如下图<br>如果 Response 不为200那么就是 Payload URL 填写的有问题(一般都是地址有误或者是安全组/防火墙对端口屏蔽问题), 这里稍微检查一下应该不会有太大问题<br>修复完可以点击[Redeliver]重新手动触发以测试效果<br><img src="http://i.amayadream.com/static/img/jenkins_project_config_webhook_records.png" alt="webhook 触发记录"></p>
+<h2 id="2-配置Jenkins自定义日志"><a href="#2-配置Jenkins自定义日志" class="headerlink" title="2.配置Jenkins自定义日志"></a>2.配置Jenkins自定义日志</h2><p>如果 github webhook 触发记录正常仍然无法触发 Jenkins 构建, 那么问题就很明显在 Jenkins 这边了, 最好的办法就是通过日志来观察问题所在<br>输入如下命令可以实时查看 Jenkins 日志, 但是一些信息可能不会在这种日志中打印出来, 所以需要一些特殊的自定义日志输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tailf /var/log/jenkins/jenkins.log</div></pre></td></tr></table></figure></p>
+<p>点击[系统管理]-[System Log], 点击[添加新的日志记录器]按钮进去添加日志记录器, 配置如下图所示:<br><img src="http://i.amayadream.com/static/img/jenkins_project_config_log.png" alt="添加自定义日志"><br>添加完成之后返回刚刚的[System Log], 点击刚添加的日志记录器就可以看到这个记录器所记录的日志信息, 现在可以到 github webhook 的管理页面手动触发一次事件然后观察这个日志记录器的日志信息以分析问题, 例如下图<br><img src="http://i.amayadream.com/static/img/jenkins_project_config_webhook_log.png" alt="查看自定义日志"></p>
+<h1 id="五-常见错误"><a href="#五-常见错误" class="headerlink" title="五.常见错误"></a>五.常见错误</h1><h2 id="1-日志显示not-found-matched-project"><a href="#1-日志显示not-found-matched-project" class="headerlink" title="1.日志显示not found matched project"></a>1.日志显示not found matched project</h2><p>github webhook 触发成功, 日志记录器中也显示收到了请求, 但是显示没有找到匹配的项目.<br>这个问题我遇到过一次, 直到把项目配置中[源码管理]从 https 换成 ssh 才解决此问题, 暂时没有找到原因</p>
 
       
 
