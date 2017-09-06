@@ -74,6 +74,8 @@ ga('send', 'pageview');
 	        
 				<li><a href="/tags/linux/">Linux</a></li>
 	        
+				<li><a href="/tags/jenkins/">Jenkins</a></li>
+	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -126,6 +128,8 @@ ga('send', 'pageview');
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -137,12 +141,14 @@ ga('send', 'pageview');
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/linux/">Linux</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/linux/">Linux</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/tags/jenkins/">Jenkins</a></li>
 		        
 				</ul>
 			</nav>
@@ -158,6 +164,94 @@ ga('send', 'pageview');
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-Jenkins-3-Jenkins自动构建并部署到远程容器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/Jenkins-3-Jenkins自动构建并部署到远程容器/">[Jenkins]3.Jenkins自动构建并部署到远程容器</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/06/Jenkins-3-Jenkins自动构建并部署到远程容器/" class="archive-article-date">
+  	<time datetime="2017-09-06T13:59:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>1.本文中的操作及环境基于<a href="http://i.amayadream.com/2017/09/05/Jenkins-2-构建maven项目并配置github-webhook/">[Jenkins]2.构建maven项目并配置github webhook</a> 一文<br>2.本文出现的 Tomcat 访问地址<code>127.0.0.1:8080</code>是我个人配置, 需要酌情进行修改</p>
+</blockquote>
+<p>在第一篇和第二篇中我们安装并简单配置了一下 Jenkins, 建立了一个托管在 Github 上的 Maven 构建的项目, 并实现了通过 github webhook 自动触发项目构建生成war包的功能. 今天要做的就是在此基础上实现 Jenkins 自动将构建好的war包部署到一个远程的容器(本次是Tomcat8)中.</p>
+<h1 id="一-准备"><a href="#一-准备" class="headerlink" title="一.准备"></a>一.准备</h1><p>本文需要的准备操作有:</p>
+<ul>
+<li>安装<code>Deploy to container Plugin</code>插件</li>
+<li>安装Tomcat</li>
+</ul>
+<p>上述的准备操作在前两篇都已经提到过, 这里就不累述了.</p>
+<h1 id="二-配置Tomcat"><a href="#二-配置Tomcat" class="headerlink" title="二.配置Tomcat"></a>二.配置Tomcat</h1><p>想要远程发布项目到到 Tomcat 容器中, 首先要打开 Tomcat 的管理功能<br>首先打开 tomcat/conf/tomcat-users.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim tomcat/conf/tomcat-users.xml</div></pre></td></tr></table></figure></p>
+<p>在<code>&lt;tomcat-users&gt;</code>和<code>&lt;/tomcat-users&gt;</code>标签中间加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;role rolename=&quot;manager-gui&quot;/&gt;</div><div class="line">&lt;role rolename=&quot;manager-script&quot;/&gt;</div><div class="line">&lt;role rolename=&quot;manager-jmx&quot;/&gt;</div><div class="line">&lt;user username=&quot;请输入用户名&quot; password=&quot;请输入密码&quot; roles=&quot;manager-gui,manager-script,manager-jmx&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>可以参考 <a href="http://www.365mini.com/page/tomcat-manager-user-configuration.htm" target="_blank" rel="external">Tomcat Manager用户配置详解</a> 这篇文章来了解这里的配置详情<br>配置完毕之后访问<code>127.0.0.1:8080/manager</code>, 输入上面配置的账号密码进入 Tomcat 的管理界面则说明配置成功</p>
+<p>到此为止, 用户可以通过<code>127.0.0.1</code>访问 Tomcat 的管理界面, 但是无法通过 ip 地址的方式访问, 这是一个很大的坑, 放开这个权限需要一点配置<br>打开管理页面配置文件(或者可以使用nginx反向代理tomcat亦可实现)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim tomcat/webapps/manager/META-INF/context.xml</div></pre></td></tr></table></figure></p>
+<p>注释掉下面这段话即可放开 ip 地址访问管理界面的权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Valve className=&quot;org.apache.catalina.valves.RemoteAddrValve&quot; allow=&quot;127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1&quot; /&gt;</div></pre></td></tr></table></figure></p>
+<h1 id="三-配置构建后操作"><a href="#三-配置构建后操作" class="headerlink" title="三.配置构建后操作"></a>三.配置构建后操作</h1><p>打开 Jenkins 项目详情页, 点击左侧配置按钮进入配置页面, 具体配置如下图:</p>
+<ul>
+<li>WAR/EAR files: 填写<code>target/项目名.war</code>即可, 这也是 maven 项目编译文件的目录</li>
+<li>Context path: 指的是容器为你分配的前缀, 一般会填写项目名</li>
+<li>Credentials: 点击 add 按钮添加上面配置的 Tomcat 管理账号和密码</li>
+<li>Tomcat URL: Tomcat 访问地址, <code>http://ip:port</code>即可, 不需要带上<code>/manager</code></li>
+</ul>
+<p><img src="http://i.amayadream.com/static/img/jenkins_project_config_deploy.png" alt="构建后操作配置"><br>配置完保存, 提交一次项目并推送至 github 触发构建事件, 观察是否构建并发布成功</p>
+<h1 id="四-常见错误"><a href="#四-常见错误" class="headerlink" title="四.常见错误"></a>四.常见错误</h1><h2 id="1-使用-nginx-代理-Tomcat-时发布中总是报错"><a href="#1-使用-nginx-代理-Tomcat-时发布中总是报错" class="headerlink" title="1.使用 nginx 代理 Tomcat 时发布中总是报错"></a>1.使用 nginx 代理 Tomcat 时发布中总是报错</h2><p>发布的时候实际上是将 war 包上传至 tomcat 中, 使用 nginx 代理则需要先配置一下<code>client_max_body_size</code>属性<br>打开 nginx 配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/nginx/conf.d/default.conf</div></pre></td></tr></table></figure></p>
+<p>配置<code>client_max_body_size</code>的值, 这里配置的是 1G<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    proxy_pass http://127.0.0.1:8090;</div><div class="line">    proxy_set_header Host $http_host;</div><div class="line">    proxy_set_header X-Forward-For $remote_addr;</div><div class="line">    client_max_body_size 1000M;</div><div class="line">    index /;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="2-部署提示权限相关的问题"><a href="#2-部署提示权限相关的问题" class="headerlink" title="2.部署提示权限相关的问题"></a>2.部署提示权限相关的问题</h2><p>见步骤二中关于 ip 地址访问 Tomcat 管理页面的描述和解决办法</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">jenkins</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/06/Jenkins-3-Jenkins自动构建并部署到远程容器/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
   
     <article id="post-Jenkins-2-构建maven项目并配置github-webhook" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
